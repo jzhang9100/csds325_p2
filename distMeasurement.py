@@ -127,7 +127,7 @@ def run():
     plt.title('RTT vs Hop Count')
     plt.ylabel('RTT (ms)')
     plt.xlabel('Hop Count')
-    #plt.savefig('figures/hops_vs_RTT.png')
+    plt.savefig('figures/hops_vs_RTT.png')
 
 if __name__ == "__main__":
     run()
