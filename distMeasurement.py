@@ -106,6 +106,7 @@ def run():
 
     #plot and anannotate each point
     for color, key in zip(colors, hops_info.keys()):        
+        print(color, key)
         tup = (RTT_info[key], hops_info[key])
         plt.scatter(tup[0], tup[1], c=color, label=key, s=100)
         
