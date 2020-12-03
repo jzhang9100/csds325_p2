@@ -28,7 +28,7 @@ def generate_datagram():
 #Setup and return a Raw Socket
 def generate_recv_socket():
     ret = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_ICMP)
-    ret.settimeout(5) #Using timeout instead of Poll/Select
+    ret.settimeout(1) #Using 1 second timeout instead of Poll/Select (packets should come in like ms so 1s is huge)
     ret.bind(("", 0))
     return ret
 
@@ -94,25 +94,22 @@ def run():
         if not successful_send:
             print("Timed Out")
         print("\n\n" + 30*'-' + "\n\n")            
-        time.sleep(2)
+        time.sleep(0.5)
     datagram.close()
     recv_socket.close()
 
 
     #Plot data and save graph
     import matplotlib.pyplot as plt
-    points = []
+    colors = ['r', 'b', 'g', 'c', 'm', 'lightcoral', 'lightsalmon', 'indigo', 'orchid' , 'lightpink']
     assert hops_info.keys() == RTT_info.keys()
 
-    #create tuples of RTTs to coresponding Hop Counts
-    for key in hops_info.keys():        
+    #plot and anannotate each point
+    for color, key in zip(colors, hops_info.keys()):        
         tup = (RTT_info[key], hops_info[key])
-        points.append(tup)
-        plt.annotate(key, tup, textcoords='offset points', xytext=(0,5), ha='center')
+        plt.scatter(tup[0], tup[1], c=color, label=key, s=100)
         
-    #plot points
-    plt.scatter(*zip(*points))
-
+    plt.legend()
     plt.title('RTT vs Hop Count')
     plt.xlabel('RTT (ms)')
     plt.ylabel('Hop Count')
