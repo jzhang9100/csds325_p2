@@ -101,7 +101,7 @@ def run():
 
     #Plot data and save graph
     import matplotlib.pyplot as plt
-    colors = ['r', 'b', 'g', 'c', 'm', 'lightcoral', 'lightsalmon', 'azure', 'orchid' , 'orange']
+    colors = ['r', 'b', 'g', 'c', 'm', 'lightcoral', 'lightsalmon', 'black', 'orchid' , 'orange']
     assert hops_info.keys() == RTT_info.keys()
 
     #plot and anannotate each point
