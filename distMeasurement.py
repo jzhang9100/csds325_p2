@@ -106,9 +106,9 @@ def run():
 
     #create tuples of RTTs to coresponding Hop Counts
     for key in hops_info.keys():        
-        tup = (hops_info[key], RTT_info[key])
+        tup = (RTT_info[key], hops_info[key])
         points.append(tup)
-        plt.annotate(key, tup)
+        plt.annotate(key, tup, ha='center')
         
     #plot points
     plt.scatter(*zip(*points))
