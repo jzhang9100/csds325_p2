@@ -108,7 +108,7 @@ def run():
     for key in hops_info.keys():        
         tup = (RTT_info[key], hops_info[key])
         points.append(tup)
-        plt.annotate(key, tup, ha='center')
+        plt.annotate(key, tup, textcoords='offset points', xytext=(0,5), ha='center')
         
     #plot points
     plt.scatter(*zip(*points))
