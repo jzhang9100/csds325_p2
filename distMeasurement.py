@@ -2,6 +2,7 @@
 import socket
 import time
 import struct
+import json
 
 DISCLAIMER_MESSAGE = "measurement for class project. questions to Jack Zhang cxz416@case.edu or professor mxr136@case.edu"
 MAX_ATTEMPTS = 5
@@ -97,24 +98,36 @@ def run():
         time.sleep(0.5)
     datagram.close()
     recv_socket.close()
+    
+    assert hops_info.keys() == RTT_info.keys()
+    
+    #save RTT and hop Data
+    ret = []
+    for key in host_info.keys():
+        tmp = {}
+        tmp['ip'] = host_info[key]
+        tmp['RTT'] = RTT_info[key]
+        tmp['Hops'] = hops_info[key]
+        ret.append({key : tmp})
+
+    with open('data.json', 'w') as fout:
+        json.dump(ret, fout)
 
 
     #Plot data and save graph
     import matplotlib.pyplot as plt
     colors = ['r', 'b', 'g', 'c', 'm', 'lightcoral', 'lightsalmon', 'y', 'orchid' , 'orange']
-    assert hops_info.keys() == RTT_info.keys()
 
     #plot and anannotate each point
     for color, key in zip(colors, hops_info.keys()):        
-        print(color, key)
         tup = (RTT_info[key], hops_info[key])
-        plt.scatter(tup[0], tup[1], c=color, label=key, s=100)
+        plt.scatter(tup[1], tup[0], c=color, label=key, s=100)
         
     plt.legend()
     plt.title('RTT vs Hop Count')
-    plt.xlabel('RTT (ms)')
-    plt.ylabel('Hop Count')
-    plt.savefig('figures/hops_vs_RTT.png')
+    plt.ylabel('RTT (ms)')
+    plt.xlabel('Hop Count')
+    #plt.savefig('figures/hops_vs_RTT.png')
 
 if __name__ == "__main__":
     run()
